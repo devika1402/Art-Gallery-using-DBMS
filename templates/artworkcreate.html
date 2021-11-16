@@ -1,0 +1,36 @@
+
+<html>
+<head>
+<meta charset="UTF-8"> <!--for adding emojis-->
+</head>
+
+<body style="background-color:rgb(172, 205, 207);">
+
+<form action="{{ url_for ('createArtdb') }}" method="POST">
+    <button name="createdb" type="submit" class="button1" href="{{ url_for('static',filename='button.css') }}">Create Art table in Database</button>
+</form>
+
+<form action="{{ url_for ('artworkcreate') }}" method="POST" enctype="multipart/form-data">
+    <h3>Enter your Artwork's Details: </h3>
+    Title &#127991;&#65039; <br><input type="text" name="title" /></br>
+
+    Artist &#129489;&#8205;&#127912; <br><input type="text" name="artist" /></br>
+
+    <label for="genre">Choose a genre for your artwork:
+    <select name="genre">
+        {% for genre in gname %}
+        <option value="{{genre.id}}">{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+    </label>
+
+    Year &#128197; <br><input type="text" name="year" /></br></br>
+  
+    Upload your creation below &#10024;<br><input type="file" name="file" /><br>
+    </br> </br>
+    
+    <input type="submit" value="Submit" /><br>
+    
+</form>
+</body>
+</html>

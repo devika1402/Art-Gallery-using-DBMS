@@ -1,0 +1,23 @@
+<html>
+<body style="background-color:rgb(172, 205, 207);">
+<!-- {{genre}}  shows the genre viz a tuple inside list -->
+
+<!-- Creation of Genre table in database -->
+<form action="{{ url_for ('creategdb') }}" method="POST">
+    <button name="createdb" type="submit" class="button1" href="{{ url_for('static',filename='button.css') }}">Create Genre Table</button>
+</form>
+
+<form action="{{ url_for ('creategenre') }}" method="POST" enctype="multipart/form-data">
+    <h3>Enter Genre Details: </h3>
+    Name of the Genre:<br>
+    <input type="text" name="name"/></br>
+
+    About:<br>
+    <input type="text" name="about"/></br>
+
+    <!-- (AUTO GENERATED) Date modified:-->
+    
+    <input type="submit" value="submit" /><br>
+</form>
+</body>
+</html>

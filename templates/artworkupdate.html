@@ -1,0 +1,33 @@
+<html>
+<!-- {{show_data}}  shows the object viz a tuple inside list -->
+<form action="{{ url_for ('artworkupdate') }}" method="POST" enctype="multipart/form-data">
+    <h3>Update artwork details: </h3>
+    Title:<br>
+    <input type="text" name="title" value="{{show_data.0.1}}" /></br>
+
+    Artist:<br>
+    <input type="text" name="artist" value="{{show_data.0.2}}" /></br>
+
+    Genre:<br>
+    <label for="genre">
+    <select name="genre">
+        {% for genre in gname %}
+        <option value="{{genre.id}}">{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+    </label>
+
+    Year<br>
+    <input type="text" name="year" value="{{show_data.0.4}}" /></br>
+
+    Current image: 
+    <input type="hidden" name="image_file" value="{{show_data.0.5}}">
+    <img src="{{show_data.0.5}}" name="image" alt="image" width="320" height="240">
+
+    <br>
+    New file: <br>
+    <input type="file" name="file" /><br>
+
+    <input type="submit" value="Submit" /><br>
+</form>
+</html>
