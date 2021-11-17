@@ -297,8 +297,7 @@ def artworkupdate(pk):
             
             print ("Executing the DML")
             cursor.execute("UPDATE Art SET Title=?, Artist=?, Genre=?, Year=?, Photo=? WHERE pk=?",(title,artist,genre,year,static_url,pk))  
-            cursor.execute("select * from Genre order by Name") #accessing genre data names
-
+            
             print ("Committing the changes")
             connection.commit()
             return redirect(url_for('artlist'))
@@ -317,15 +316,14 @@ def artworkupdate(pk):
          
          print ("Executing the DML")
          cursor.execute("UPDATE Art SET Title=?, Artist=?, Genre=? Year=? WHERE pk=?",(title,artist,genre,year,pk))
-         cursor.execute("select * from Genre order by Name") #accessing genre data names
-
+        
          print ("Committing the changes")
          connection.commit()
          
          return redirect(url_for('artlist'))
          
    
-   else:
+   else: #executes first and shows existing data in the form fields
          
       print ("Making a connection")
       connection = sqlite3.connect('db.db')
@@ -341,9 +339,12 @@ def artworkupdate(pk):
       
       print ("Closing the database")
       connection.close()
-
+      
       return render_template("artworkupdate.html", show_data = show_data)
-
+      # how to enter genrenames
+      # genrenameslist = genrenames()
+      # return render_template("artworkcreate.html",genrenameslist = genrenameslist)
+   
 
 # DELETION OF ARTWORKS
 @app.route("/artworkdelete/<int:pk>", methods=['GET','POST'])
