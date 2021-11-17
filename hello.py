@@ -191,7 +191,6 @@ def genreupdate(id):
 # CREATION OF ARTWORKS' DETAILS' ENTRIES
 @app.route('/artworkcreate', methods = ['GET','POST'])
 def artworkcreate():
-   
    if request.method == 'POST':
       title = request.form['title']
       artist = request.form['artist']
@@ -234,9 +233,9 @@ def artworkcreate():
          return(return_message)
 
    else: #executes first
-      genrenameslist = genrenames()
-      
-      return render_template("artworkcreate.html",genrenameslist = genrenameslist)
+      #genrenameslist = genrenames()
+      # return render_template("artworkcreate.html",genrenameslist = genrenameslist)
+      return render_template("artworkcreate.html")
    
 # DISPLAYING THE LIST OF ARTWORKS (READING DATABASE)
 @app.route('/artlist', methods=['GET']) 
@@ -351,7 +350,7 @@ def artworkdelete(pk):
       
    try:
 
-      print ("making a connection")
+      print ("Making a connection")
       connection = sqlite3.connect('db.db')
 
       print ("Getting a Cursor")
@@ -360,7 +359,7 @@ def artworkdelete(pk):
       print ("Executing the DML")
       cursor.execute("DELETE from Art where pk=(?)", (pk,))
       
-      print ("Commiting the changes")
+      print ("Committing the changes")
       connection.commit()
 
       print ("Closing the database")
