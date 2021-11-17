@@ -322,7 +322,6 @@ def artworkupdate(pk):
          
          return redirect(url_for('artlist'))
          
-   
    else: #executes first and shows existing data in the form fields
          
       print ("Making a connection")
@@ -336,15 +335,15 @@ def artworkupdate(pk):
       
       print ("Get the Rows from cursor")
       show_data = cursor.fetchall()
+      genrenameslist = genrenames()
       
       print ("Closing the database")
       connection.close()
       
-      return render_template("artworkupdate.html", show_data = show_data)
-      # how to enter genrenames
-      # genrenameslist = genrenames()
-      # return render_template("artworkcreate.html",genrenameslist = genrenameslist)
-   
+      data_genre = show_data + genrenameslist
+      print(data_genre)
+      return render_template("artworkupdate.html", data_genre = data_genre)
+
 
 # DELETION OF ARTWORKS
 @app.route("/artworkdelete/<int:pk>", methods=['GET','POST'])
