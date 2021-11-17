@@ -35,14 +35,14 @@ input[type=text] {
     Artist:<br>
     <input type="text" name="artist" value="{{show_data.0.2}}" /></br>
     <br>
-    Genre:<br>
-    <label for="genre">
-    <select name="genre">
-        {% for genre in gname %}
-        <option value="{{genre.id}}">{{ genre.name }}</option>
+
+    <label for="genre">Genre:<br></label> 
+    <select name="genrenameslist">
+        {% for g in genrenameslist %}
+        <option value="{{g.0}}">{{ g.0 }}</option>
         {% endfor %}
     </select>
-    </label>
+    
     <br><br>
     Year:
     <input type="text" name="year" value="{{show_data.0.4}}" /></br>
