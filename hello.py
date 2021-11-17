@@ -9,7 +9,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 # HOME PAGE
 @app.route("/")
 def home():
-       return render_template("index.html", content="Testing")
+   return render_template("index.html", content="Testing")
     
 # CREATING A DATABASE CONSISTING OF Art and Genre TABLES
 # CREATING THE Art TABLE
@@ -115,7 +115,6 @@ def genrelist():
    return render_template("genrelist.html", g_rows = g_rows)
 
 # GETTING INPUT FOR GENRE NAMES FOR THE DROP DOWN LIST DISPLAYING THE LIST OF GENRES (READING DATABASE) FOR CREATING ARTWORK
-@app.route('/artworkcreate') 
 def genrenames():
    print("Making a connection")
    connection = sqlite3.connect('db.db')
@@ -124,37 +123,24 @@ def genrenames():
    cursor = connection.cursor()
    
    print ("Executing the DML")
-   cursor.execute("select * from Genre order by Name") #accessing genre names
+   cursor.execute("select Name from Genre order by Name") #accessing genre names
 
-   print("Get the Rows from cursor")
+   # EITHER THIS
+   # gname = []
+   # print("Get the Rows from cursor")
+   # for i in cursor.fetchall():
+   #       for j in i:
+   #              gname.append(j)
+
+   # OR THAT
    gname = cursor.fetchall()
    
    print("Closing the database")
    connection.close()
 
    print(gname)
-   return render_template("artworkcreate.html", gname = gname)
+   return(gname)
 
-# GETTING INPUT FOR GENRE NAMES FOR THE DROP DOWN LIST DISPLAYING THE LIST OF GENRES (READING DATABASE) FOR UPDATING ARTWORK
-@app.route('/artworkupdate') 
-def genrenames():
-   print("Making a connection")
-   connection = sqlite3.connect('db.db')
-
-   print ("Getting a cursor")
-   cursor = connection.cursor()
-   
-   print ("Executing the DML")
-   cursor.execute("select * from Genre order by Name") #accessing genre data names
-
-   print("Get the Rows from cursor")
-   gname = cursor.fetchall()
-   
-   print("Closing the database")
-   connection.close()
-
-   print(gname)
-   return render_template("artworkupdate.html", gname = gname)
 
 # UPDATION OF GENRE DETAILS
 @app.route("/genreupdate/<int:pk>", methods=['GET','POST'])
@@ -217,10 +203,12 @@ def artworkcreate():
       try:
          # file url is used for storing images at an absolute location on the os file folder.
          file_url = os.path.join(os.getcwd() + UPLOAD_FOLDER, image.filename)
-
+         print(file_url)
+         
          # static url is required for serving images from a static folder. store this on SQL DB
          staic_url = os.path.join(UPLOAD_FOLDER, image.filename)
-
+         print(staic_url)
+         
          image.save(file_url)
 
          print ("Making a connection")
@@ -245,8 +233,10 @@ def artworkcreate():
          return_message = str(error)
          return(return_message)
 
-   else:
-      return render_template("artworkcreate.html")
+   else: #executes first
+      genrenameslist = genrenames()
+      
+      return render_template("artworkcreate.html",genrenameslist = genrenameslist)
    
 # DISPLAYING THE LIST OF ARTWORKS (READING DATABASE)
 @app.route('/artlist', methods=['GET']) 
@@ -307,7 +297,8 @@ def artworkupdate(pk):
             
             print ("Executing the DML")
             cursor.execute("UPDATE Art SET Title=?, Artist=?, Genre=?, Year=?, Photo=? WHERE pk=?",(title,artist,genre,year,static_url,pk))  
-            
+            cursor.execute("select * from Genre order by Name") #accessing genre data names
+
             print ("Committing the changes")
             connection.commit()
             return redirect(url_for('artlist'))
@@ -326,6 +317,7 @@ def artworkupdate(pk):
          
          print ("Executing the DML")
          cursor.execute("UPDATE Art SET Title=?, Artist=?, Genre=? Year=? WHERE pk=?",(title,artist,genre,year,pk))
+         cursor.execute("select * from Genre order by Name") #accessing genre data names
 
          print ("Committing the changes")
          connection.commit()
@@ -343,7 +335,7 @@ def artworkupdate(pk):
       
       print ("Executing the DML")
       cursor.execute("select * from Art where pk=(?)",(pk,))
-
+      
       print ("Get the Rows from cursor")
       show_data = cursor.fetchall()
       
@@ -351,6 +343,7 @@ def artworkupdate(pk):
       connection.close()
 
       return render_template("artworkupdate.html", show_data = show_data)
+
 
 # DELETION OF ARTWORKS
 @app.route("/artworkdelete/<int:pk>", methods=['GET','POST'])
