@@ -1,4 +1,3 @@
-
 <html>
 <head>
 <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1"> <!--for adding emojis-->
@@ -37,13 +36,15 @@ input[type=text] {
 
     Artist &#129489;&#8205;&#127912; <br><input type="text" name="artist" /></br>
     <br>
-    <label for="genre">Choose a genre for your artwork:
-    <select name="genre">
-        {% for genre in gname %}
-        <option value="{{genre.id}}">{{ genre.name }}</option>
+
+    <label for="genre">Choose a genre for your artwork:</label>
+    <select name="genrenameslist">
+        {% for g in genrenameslist %}
+        <option value="{{g.0}}">{{ g.0 }}</option>
         {% endfor %}
-    </select>
-    </label>
+    </select> 
+
+    
     <br><br>
     Year &#128197; <br><input type="text" name="year" /></br></br>
   
